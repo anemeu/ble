@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DemoXamarinBLE.Vista.ReadWritePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="INTERACTUAR CON EL PERIFERICO"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand"
+                     Padding="10"
+                     Spacing="15">
+                <Label Text="{Binding modelo.EstatusBLE}"
+               HorizontalTextAlignment="Center"
+               HorizontalOptions="FillAndExpand"
+               FontSize="18"></Label>
+                <Button HorizontalOptions="FillAndExpand"
+                Text="Leer"
+                Command="{Binding CmdRead}"
+                FontSize="18">
+                </Button>
+                <Label Text="{Binding modelo.DatosLeidos}"
+               HorizontalTextAlignment="Center"
+               HorizontalOptions="FillAndExpand"
+               FontSize="18"></Label>
+                <Button HorizontalOptions="FillAndExpand"
+                Text="Escribir"
+                Command="{Binding CmdWrite}"
+                FontSize="18">
+                </Button>
+                <Entry Text="{Binding modelo.TextoEnviar}" 
+                    Placeholder="Escribe lo que quieras enviar">
+                </Entry>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

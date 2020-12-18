@@ -14,7 +14,10 @@ namespace DemoXamarinBLE
 
             vmBle = new VistaModelo.VistaModeloBLE();
 
-            MainPage = new NavigationPage(new Vista.MainPage(vmBle));
+            MainPage = new NavigationPage(new Vista.MainPage(vmBle))
+            {
+                BarBackgroundColor = Color.LawnGreen
+            };
             //MainPage = new NavigationPage(new Vista.ReadWritePage(vmBle));
         }
 

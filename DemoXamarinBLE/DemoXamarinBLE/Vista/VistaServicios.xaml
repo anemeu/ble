@@ -6,50 +6,65 @@
              mc:Ignorable="d"
              x:Class="DemoXamarinBLE.Vista.VistaServicios"
              Visual="Material">
-    <ContentPage.Content>
-        <StackLayout HorizontalOptions="FillAndExpand"
-                 VerticalOptions="FillAndExpand">
-            <!-- etiqueta de estatus -->
-            <StackLayout HorizontalOptions="FillAndExpand"
-                         VerticalOptions="FillAndExpand"
-                         Padding="10"
-                         Spacing="15">
-                <Label Text="Servicios encontrados para el dispositivo seleccionado"
-                       HorizontalTextAlignment="Center"
-                       HorizontalOptions="FillAndExpand"
-                       FontSize="18"></Label>
 
-                <CollectionView ItemsSource="{Binding modelo.ListaServicios}"
-                            HorizontalOptions="FillAndExpand"
-                            ItemsLayout="VerticalList"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding modelo.ServicioSeleccionado}"
-                            SelectionChangedCommand="{Binding CmdSeleccionaServicio}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
+    <NavigationPage.TitleView>
+        <Label
+            Text="COMUNICACION BLE"
+            FontSize="18"
+            TextColor="Black"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="Start"/>
+    </NavigationPage.TitleView>
+    
+    <StackLayout HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+        <!-- etiqueta de estatus -->
+        <StackLayout HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Padding="10"
+                        Spacing="15">
+            <Label Text="Servicios encontrados para el dispositivo seleccionado"
+                    HorizontalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                    FontSize="18"></Label>
+
+            <BoxView HeightRequest="1" Color="#E8E8E8"/>
+            
+            <CollectionView ItemsSource="{Binding modelo.ListaServicios}"
+                        HorizontalOptions="FillAndExpand"
+                        ItemsLayout="VerticalList"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding modelo.ServicioSeleccionado}"
+                        SelectionChangedCommand="{Binding CmdSeleccionaServicio}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
                             <StackLayout Spacing="10"
-                                     Padding="10">
+                                        Padding="10">
                                 <Label Text="Nombre:"
-                                   FontSize="20"></Label>
+                                    FontSize="20"></Label>
                                 <Label Text="{Binding Name}"
-                                   FontSize="17"></Label>
+                                    FontSize="17"></Label>
 
                                 <Label Text="Id:"
-                                   FontSize="20"></Label>
+                                    FontSize="20"></Label>
                                 <Label Text="{Binding Id}"
-                                   FontSize="13"></Label>
+                                    FontSize="13"></Label>
+                                  
                             </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                    <CollectionView.EmptyView>
-                        <StackLayout HorizontalOptions="FillAndExpand"
-                                 VerticalOptions="FillAndExpand">
-                            <Label FontSize="19"
-                               Text="Lista sin elementos"></Label>
+                            <BoxView HeightRequest="1" Color="#E8E8E8"/>
                         </StackLayout>
-                    </CollectionView.EmptyView>
-                </CollectionView>
-            </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <StackLayout HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand">
+                        <Label FontSize="19"
+                            Text="Lista sin elementos"></Label>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
         </StackLayout>
-    </ContentPage.Content>
+    </StackLayout>
+
 </ContentPage>

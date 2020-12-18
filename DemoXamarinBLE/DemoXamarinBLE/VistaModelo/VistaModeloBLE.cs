@@ -136,6 +136,7 @@ namespace DemoXamarinBLE.VistaModelo
                     {
                         try
                         {
+                            await ((NavigationPage)App.Current.MainPage).PushAsync(new Vista.VistaDispositivos(App.vmBle));
                             if (!bleAdapter.IsScanning)
                             {
                                 System.Diagnostics.Debug.WriteLine("Comienza el escaneo");

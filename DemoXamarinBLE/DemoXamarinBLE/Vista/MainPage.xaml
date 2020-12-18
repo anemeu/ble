@@ -6,57 +6,36 @@
              mc:Ignorable="d"
              x:Class="DemoXamarinBLE.Vista.MainPage"
              Visual="Material">
+
+    <NavigationPage.TitleView>
+        <Label
+            Text="COMUNICACION BLE"
+            FontSize="18"
+            TextColor="Black"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="Start"/>
+    </NavigationPage.TitleView>
+
     <StackLayout HorizontalOptions="FillAndExpand"
-                 VerticalOptions="FillAndExpand">
-        <!-- etiqueta de estatus -->
-        <StackLayout HorizontalOptions="FillAndExpand"
-                     VerticalOptions="FillAndExpand"
-                     Padding="10"
-                     Spacing="15">
-            <Label Text="{Binding modelo.EstatusBLE}"
-               HorizontalTextAlignment="Center"
-               HorizontalOptions="FillAndExpand"
-               FontSize="18"></Label>
-           <Button HorizontalOptions="FillAndExpand"
+                 VerticalOptions="CenterAndExpand"
+                 >
+        
+        <Button HorizontalOptions="FillAndExpand"
+                VerticalOptions="Center"
                 Text="Escanear"
                 Command="{Binding CmdIniciaEscaneo}"
-                FontSize="18">
+                FontSize="18"
+                Padding="10"
+                Margin="20">
             </Button>
-            <Button HorizontalOptions="FillAndExpand"
+        <Button HorizontalOptions="FillAndExpand"
+                VerticalOptions="Center"
                 Text="Conectar"
                 Command="{Binding CmdConectaDispositivoConocido}"
-                FontSize="18">
-            </Button>
-            <CollectionView ItemsSource="{Binding modelo.ListaDispositivos}"
-                            HorizontalOptions="FillAndExpand"
-                            ItemsLayout="VerticalList"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding modelo.DispositivoConectado}"
-                            SelectionChangedCommand="{Binding CmdConectaDispositivo}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Spacing="10"
-                                     Padding="10">
-                            <Label Text="Nombre:"
-                                   FontSize="20"></Label>
-                            <Label Text="{Binding Name}"
-                                   FontSize="17"></Label>
-
-                            <Label Text="RSSI:"
-                                   FontSize="20"></Label>
-                            <Label Text="{Binding Rssi}"
-                                   FontSize="17"></Label>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <StackLayout HorizontalOptions="FillAndExpand"
-                                 VerticalOptions="FillAndExpand">
-                        <Label FontSize="19"
-                               Text="Lista sin elementos"></Label>
-                    </StackLayout>
-                </CollectionView.EmptyView>
-            </CollectionView> 
-        </StackLayout>
+                FontSize="18"
+                Padding="10"
+                Margin="20">
+        </Button>
+       
     </StackLayout>
 </ContentPage>

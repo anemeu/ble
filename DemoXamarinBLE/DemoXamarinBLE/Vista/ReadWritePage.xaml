@@ -5,37 +5,60 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DemoXamarinBLE.Vista.ReadWritePage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="INTERACTUAR CON EL PERIFERICO"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <StackLayout HorizontalOptions="FillAndExpand"
-                     VerticalOptions="FillAndExpand"
-                     Padding="10"
-                     Spacing="15">
-                <Label Text="{Binding modelo.EstatusBLE}"
-               HorizontalTextAlignment="Center"
-               HorizontalOptions="FillAndExpand"
-               FontSize="18"></Label>
-                <Button HorizontalOptions="FillAndExpand"
-                Text="Leer"
-                Command="{Binding CmdRead}"
-                FontSize="18">
-                </Button>
-                <Label Text="{Binding modelo.DatosLeidos}"
-               HorizontalTextAlignment="Center"
-               HorizontalOptions="FillAndExpand"
-               FontSize="18"></Label>
-                <Button HorizontalOptions="FillAndExpand"
-                Text="Escribir"
-                Command="{Binding CmdWrite}"
-                FontSize="18">
-                </Button>
-                <Entry Text="{Binding modelo.TextoEnviar}" 
-                    Placeholder="Escribe lo que quieras enviar">
-                </Entry>
-            </StackLayout>
-        </StackLayout>
-    </ContentPage.Content>
+
+    <NavigationPage.TitleView>
+        <Label
+            Text="COMUNICACION BLE"
+            FontSize="18"
+            TextColor="Black"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="Start"/>
+    </NavigationPage.TitleView>
+
+    <StackLayout>
+
+        <Label Text="INTERACTUAR CON EL PERIFERICO"
+            HorizontalOptions="Center"
+            Margin="20"/>
+       
+        <BoxView HeightRequest="1" Color="#E8E8E8"/>
+
+        <Button HorizontalOptions="FillAndExpand"
+            Text="Leer"
+            Command="{Binding CmdRead}"
+            FontSize="18"
+            Margin="10">
+        </Button>
+
+        <Label Text="Los datos que se han leído: "
+            HorizontalOptions="Center"
+            Margin="0"></Label>
+
+        <Frame BackgroundColor="Transparent" BorderColor="#ECECEC" Margin="10" Padding ="8" HasShadow="False" >
+            <Label Text="{Binding modelo.DatosLeidos}"
+            HorizontalTextAlignment="Center"
+            HorizontalOptions="Center"
+            FontSize="18"></Label>
+        </Frame>
+
+        <Frame BackgroundColor="Transparent" BorderColor="Transparent" Margin="10" HasShadow="False" Padding="0" >
+            <BoxView HeightRequest="0.2" Color="#FF000000" Margin="0" />
+        </Frame>
+  
+        <Frame BackgroundColor="Transparent" BorderColor="#ECECEC" Margin="10" HasShadow="False" Padding="8" >
+            <Entry Text="{Binding modelo.TextoEnviar}" 
+               Placeholder="Escribe lo que quieras enviar"
+               FontSize="18">
+            </Entry>
+        </Frame>
+
+        <Button HorizontalOptions="FillAndExpand"
+            Text="Escribir"
+            Command="{Binding CmdWrite}"
+            FontSize="18"
+            Margin="10">
+        </Button>
+
+    </StackLayout>
+
 </ContentPage>

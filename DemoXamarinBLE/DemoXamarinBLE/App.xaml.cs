@@ -12,6 +12,7 @@ namespace DemoXamarinBLE
         {
             InitializeComponent();
 
+            // se crea la vista modelo para pasarle a la pagina principal
             vmBle = new VistaModelo.VistaModeloBLE();
 
             MainPage = new NavigationPage(new Vista.MainPage(vmBle))

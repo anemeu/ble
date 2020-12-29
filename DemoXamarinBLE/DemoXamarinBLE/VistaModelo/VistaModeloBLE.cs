@@ -37,8 +37,9 @@ namespace DemoXamarinBLE.VistaModelo
 
         public VistaModeloBLE()
         {
-            // este constructor lo hace todo :)
+            // este constructor hace todo
 
+            // crea el modelo
             modelo = new ModeloBLE
             {
                 EstatusBLE = "",
@@ -67,14 +68,11 @@ namespace DemoXamarinBLE.VistaModelo
                 modelo.EstatusBLE = $"Estado del bluetooth: {bleHandler.State}";
             };
 
-            // cuando se 'descubre' un dispositivo
             // se ejecuta cuando BLE encuentra un dispositivo que esta en advertising
             bleAdapter.DeviceDiscovered += (sender, args) =>
             {
                 System.Diagnostics.Debug.WriteLine("Se ha descubierto un dispositivo");
                 IDevice dispositivoDescubierto = args.Device;
-
-
 
                 // buscando en la lista de dispositivos en memoria si ya existe
                 //List<IDevice> lstDispositivoRepetido = (from disps in modelo.ListaDispositivos
@@ -90,6 +88,7 @@ namespace DemoXamarinBLE.VistaModelo
 
             modelo.EstatusBLE = "Listo...";
         }
+
         // conecta a dispositivo conocido
         private Command _CmdConectaDispositivoConocido;
         public Command CmdConectaDispositivoConocido
@@ -114,9 +113,7 @@ namespace DemoXamarinBLE.VistaModelo
 
                         // pasar a la siguiente pagina
                         modelo.EstatusBLE = $"Estado del bluetooth: {bleHandler.State}";
-
                         await ((NavigationPage)App.Current.MainPage).PushAsync(new Vista.VistaServicios(App.vmBle));
-
 
                     });
                 }
@@ -183,7 +180,6 @@ namespace DemoXamarinBLE.VistaModelo
 
                         // pasar a la siguiente pagina
                         modelo.EstatusBLE = $"Estado del bluetooth: {bleHandler.State}";
-
                         await ((NavigationPage)App.Current.MainPage).PushAsync(new Vista.VistaServicios(App.vmBle));
                     });
                 }
@@ -208,7 +204,6 @@ namespace DemoXamarinBLE.VistaModelo
                         }
 
                         // cambiar pagina
-
                         await ((NavigationPage)App.Current.MainPage).PushAsync(new Vista.VistaCaracteristicas(App.vmBle));
                     });
                 }

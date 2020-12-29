@@ -18,7 +18,7 @@
     
     <StackLayout HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand">
-        <!-- etiqueta de estatus -->
+       
         <StackLayout HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand"
                         Padding="10"

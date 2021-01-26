@@ -100,9 +100,10 @@ namespace DemoXamarinBLE.VistaModelo
                     _CmdConectaDispositivoConocido = new Command(async () =>
                     {
                         System.Diagnostics.Debug.WriteLine("conectar a dispositivo conocido");
-                        
+
                         //System.Guid address = new System.Guid("D5-07-0E-4F-46-B7");
-                        IDevice disp = await bleAdapter.ConnectToKnownDeviceAsync(System.Guid.Parse("00000000-0000-0000-0000-d5070e4f46b7"));
+                        //IDevice disp = await bleAdapter.ConnectToKnownDeviceAsync(System.Guid.Parse("00000000-0000-0000-0000-d5070e4f46b7"));
+                        IDevice disp = await bleAdapter.ConnectToKnownDeviceAsync(System.Guid.Parse("00000000-0000-0000-0000-000d6f289f87"));
 
                         modelo.ListaServicios.Clear();
 
@@ -224,7 +225,41 @@ namespace DemoXamarinBLE.VistaModelo
                         // imprimir las capacidades de la caracteristica
                         System.Diagnostics.Debug.WriteLine($"Capcidades de la caracteristica: Lectura {modelo.CaracteristicaSeleccionada.CanRead}, Escritura {modelo.CaracteristicaSeleccionada.CanWrite}, Actualizacion {modelo.CaracteristicaSeleccionada.CanWrite}");
 
-                        /*  if (modelo.CaracteristicaSeleccionada.CanRead)
+                        // HEMENDIK NOTIFY-ENA 
+
+                        //var descriptor = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{00002902-0000-1000-8000-00805f9b34fb}"));
+                        var descriptor = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{f1e1a72c-6a1e-4558-ae90-c29d2e20245a}"));
+
+                        if (descriptor != null)
+                        {
+                           byte[] array2 = { 02, 00};
+                           await descriptor.WriteAsync(array2);
+                        } else
+                        {
+                           System.Diagnostics.Debug.WriteLine("No descriptor");
+                        }
+                                                
+                        modelo.CaracteristicaSeleccionada.ValueUpdated += (o, args) =>
+                        {
+                            var bytes = args.Characteristic.Value;
+                            //var result = System.BitConverter.ToInt64(bytes,0);
+                            foreach(var b in bytes)
+                            {
+                                System.Diagnostics.Debug.WriteLine(b);
+                            }
+                            System.Diagnostics.Debug.WriteLine("UPDATE!!!!!!");
+                        };
+                        
+                        modelo.CaracteristicaSeleccionada.ValueUpdated += (o, args) =>
+                        {
+                            var bytes = args.Characteristic.Value;
+                        };
+                        await modelo.CaracteristicaSeleccionada.StartUpdatesAsync();
+ 
+                       // HONAINO
+
+                       /*
+                          if (modelo.CaracteristicaSeleccionada.CanRead)
                           {
                               byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
 
@@ -244,8 +279,8 @@ namespace DemoXamarinBLE.VistaModelo
                               byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
 
                               System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
-                          }*/
-
+                          }
+                        */
                         await ((NavigationPage)App.Current.MainPage).PushAsync(new Vista.ReadWritePage(App.vmBle));
                     });
                 }
@@ -253,6 +288,7 @@ namespace DemoXamarinBLE.VistaModelo
                 return _CmdInteractuarConCaracteristica;
             }
         }
+
         private Command _CmdRead;
         public Command CmdRead
         {
@@ -269,10 +305,15 @@ namespace DemoXamarinBLE.VistaModelo
                         {
                             byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
 
-                            System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
+                            System.Diagnostics.Debug.WriteLine($"Daots en bytes: {datos[0]}");
+                            //System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
                             System.Diagnostics.Debug.WriteLine(modelo.DatosLeidos);
-                            modelo.DatosLeidos = Encoding.UTF8.GetString(datos);
+                            //modelo.DatosLeidos = Encoding.UTF8.GetString(datos);
+                            modelo.DatosLeidos = datos[0].ToString();
                             System.Diagnostics.Debug.WriteLine(modelo.DatosLeidos);
+
+
+
                         }
                         /*
                         if (modelo.CaracteristicaSeleccionada.CanWrite)

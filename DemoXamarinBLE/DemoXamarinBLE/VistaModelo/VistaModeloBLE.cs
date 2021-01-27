@@ -226,7 +226,7 @@ namespace DemoXamarinBLE.VistaModelo
                         System.Diagnostics.Debug.WriteLine($"Capcidades de la caracteristica: Lectura {modelo.CaracteristicaSeleccionada.CanRead}, Escritura {modelo.CaracteristicaSeleccionada.CanWrite}, Actualizacion {modelo.CaracteristicaSeleccionada.CanWrite}");
 
                         // HEMENDIK NOTIFY-ENA 
-
+                        /*
                         //var descriptor = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{00002902-0000-1000-8000-00805f9b34fb}"));
                         var descriptor = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{f1e1a72c-6a1e-4558-ae90-c29d2e20245a}"));
 
@@ -255,32 +255,32 @@ namespace DemoXamarinBLE.VistaModelo
                             var bytes = args.Characteristic.Value;
                         };
                         await modelo.CaracteristicaSeleccionada.StartUpdatesAsync();
- 
-                       // HONAINO
+                       */
+                        // HONAINO
 
-                       /*
-                          if (modelo.CaracteristicaSeleccionada.CanRead)
-                          {
-                              byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
+                        /*
+                           if (modelo.CaracteristicaSeleccionada.CanRead)
+                           {
+                               byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
 
-                              System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
-                          }
+                               System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
+                           }
 
-                          if (modelo.CaracteristicaSeleccionada.CanWrite)
-                          {
-                              string newName = "Ane";
-                              byte[] newNameBytes = Encoding.ASCII.GetBytes(newName);
-                              await modelo.CaracteristicaSeleccionada.WriteAsync(newNameBytes);
+                           if (modelo.CaracteristicaSeleccionada.CanWrite)
+                           {
+                               string newName = "Ane";
+                               byte[] newNameBytes = Encoding.ASCII.GetBytes(newName);
+                               await modelo.CaracteristicaSeleccionada.WriteAsync(newNameBytes);
 
-                          }
+                           }
 
-                          if (modelo.CaracteristicaSeleccionada.CanRead)
-                          {
-                              byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
+                           if (modelo.CaracteristicaSeleccionada.CanRead)
+                           {
+                               byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
 
-                              System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
-                          }
-                        */
+                               System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
+                           }
+                         */
                         await ((NavigationPage)App.Current.MainPage).PushAsync(new Vista.ReadWritePage(App.vmBle));
                     });
                 }
@@ -354,6 +354,84 @@ namespace DemoXamarinBLE.VistaModelo
                 }
 
                 return _CmdWrite;
+            }
+        }
+
+        private Command _CmdHabilitarNot;
+        public Command CmdHabilitarNot
+        {
+            get
+            {
+                if (_CmdHabilitarNot == null)
+                {
+                    _CmdHabilitarNot = new Command(async () =>
+                    {
+                        //var descriptor = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{f1e1a72c-6a1e-4558-ae90-c29d2e20245a}"));
+
+                        /* modelo.DescriptorSeleccionado = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{f1e1a72c-6a1e-4558-ae90-c29d2e20245a}"));
+
+                         if (modelo.DescriptorSeleccionado != null)
+                         {
+                             byte[] array2 = { 02, 00 };
+                             await modelo.DescriptorSeleccionado.WriteAsync(array2);
+                             modelo.DatosNotificacion += "Notificaciones habilitadas\n";
+                         }
+                         else
+                         {
+                             System.Diagnostics.Debug.WriteLine("No descriptor");
+                         }*/
+
+                        modelo.DatosNotificacion += "Notificaciones habilitadas\n";
+
+                        modelo.CaracteristicaSeleccionada.ValueUpdated += (o, args) =>
+                        {
+                            var bytes = args.Characteristic.Value;
+                            //var result = System.BitConverter.ToInt64(bytes,0);
+                            foreach (var b in bytes)
+                            {           
+                                System.Diagnostics.Debug.WriteLine(b);
+                                modelo.DatosNotificacion += "Temperatura: " + b + "\n";
+                                System.Diagnostics.Debug.WriteLine("Temperatura: " + b);
+                            }
+                            System.Diagnostics.Debug.WriteLine("UPDATE!!!!!!");
+                            
+                        };
+
+                        modelo.CaracteristicaSeleccionada.ValueUpdated += (o, args) =>
+                        {
+                            var bytes = args.Characteristic.Value;
+                        };
+                        await modelo.CaracteristicaSeleccionada.StartUpdatesAsync();
+                    });
+                }
+
+                return _CmdHabilitarNot;
+            }
+        }
+
+        private Command _CmdDeshabilitarNot;
+        public Command CmdDeshabilitarNot
+        {
+            get
+            {
+                if (_CmdDeshabilitarNot == null)
+                {
+                    _CmdDeshabilitarNot = new Command(async () =>
+                    {
+                        //modelo.DescriptorSeleccionado = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{f1e1a72c-6a1e-4558-ae90-c29d2e20245a}"));
+
+                        await modelo.CaracteristicaSeleccionada.StopUpdatesAsync();
+
+                       // modelo.DescriptorSeleccionado = await modelo.CaracteristicaSeleccionada.GetDescriptorAsync(System.Guid.Parse("{f1e1a72c-6a1e-4558-ae90-c29d2e20245a}"));
+
+                       // byte[] array2 = { 00, 00 };
+                       // await modelo.DescriptorSeleccionado.WriteAsync(array2);
+                        modelo.DatosNotificacion += "Notificaciones deshabilitadas\n";
+
+                    });
+                }
+
+                return _CmdDeshabilitarNot;
             }
         }
 

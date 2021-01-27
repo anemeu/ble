@@ -137,6 +137,36 @@ namespace DemoXamarinBLE.Modelo
             }
         }
 
+        private string _DatosNotificacion;
+        public string DatosNotificacion
+        {
+            get
+            {
+                return _DatosNotificacion;
+            }
+            set
+            {
+                _DatosNotificacion = value;
+                OnPropertyChanged("DatosNotificacion");
+            }
+        }
+
+        private IDescriptor _DescriptorSeleccionado;
+        public IDescriptor DescriptorSeleccionado
+        {
+            get
+            {
+                return _DescriptorSeleccionado;
+            }
+            set
+            {
+
+                _DescriptorSeleccionado = value;
+                OnPropertyChanged("DescriptorSeleccionado");
+
+            }
+        }
+
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -109,8 +109,8 @@ namespace DemoXamarinBLE.Modelo
             }
         }
 
-        private string _TextoEnviar;
-        public string TextoEnviar
+        private int _TextoEnviar;
+        public int TextoEnviar
         {
             get
             {

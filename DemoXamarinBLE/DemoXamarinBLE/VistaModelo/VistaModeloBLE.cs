@@ -303,7 +303,9 @@ namespace DemoXamarinBLE.VistaModelo
 
                         if (modelo.CaracteristicaSeleccionada.CanRead)
                         {
+                            System.Diagnostics.Debug.WriteLine("Hona bai");
                             byte[] datos = await modelo.CaracteristicaSeleccionada.ReadAsync();
+                            System.Diagnostics.Debug.WriteLine("Hone be bai");
 
                             System.Diagnostics.Debug.WriteLine($"Daots en bytes: {datos[0]}");
                             //System.Diagnostics.Debug.WriteLine($"Datos: {Encoding.UTF8.GetString(datos)}");
@@ -311,9 +313,6 @@ namespace DemoXamarinBLE.VistaModelo
                             //modelo.DatosLeidos = Encoding.UTF8.GetString(datos);
                             modelo.DatosLeidos = datos[0].ToString();
                             System.Diagnostics.Debug.WriteLine(modelo.DatosLeidos);
-
-
-
                         }
                         /*
                         if (modelo.CaracteristicaSeleccionada.CanWrite)
@@ -348,7 +347,9 @@ namespace DemoXamarinBLE.VistaModelo
                             /*string newName = "Ane2";
                             byte[] newNameBytes = Encoding.ASCII.GetBytes(newName);
                             await modelo.CaracteristicaSeleccionada.WriteAsync(newNameBytes);*/
-                            await modelo.CaracteristicaSeleccionada.WriteAsync(Encoding.ASCII.GetBytes(modelo.TextoEnviar));
+                            //await modelo.CaracteristicaSeleccionada.WriteAsync(Encoding.ASCII.GetBytes(modelo.TextoEnviar));
+                            await modelo.CaracteristicaSeleccionada.WriteAsync(System.BitConverter.GetBytes(modelo.TextoEnviar));
+                            //System.Diagnostics.Debug.WriteLine($"Bytes: {System.BitConverter.GetBytes(modelo.TextoEnviar)}");
                         }
                     });
                 }
@@ -397,10 +398,11 @@ namespace DemoXamarinBLE.VistaModelo
                             
                         };
 
-                        modelo.CaracteristicaSeleccionada.ValueUpdated += (o, args) =>
+                       /* modelo.CaracteristicaSeleccionada.ValueUpdated += (o, args) =>
                         {
                             var bytes = args.Characteristic.Value;
-                        };
+                        };*/
+
                         await modelo.CaracteristicaSeleccionada.StartUpdatesAsync();
                     });
                 }

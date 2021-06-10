@@ -1,6 +1,7 @@
 ﻿using DemoXamarinBLE.Modelo;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BLE.Abstractions.EventArgs;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace DemoXamarinBLE.VistaModelo
             {
                 modelo.EstatusBLE = $"Estado del bluetooth: {args.NewState}";
             };
-
+            
             bleAdapter.ScanMode = ScanMode.LowPower; // se establece que el escaneo de advertising se optimiza para bajo consumo 
             bleAdapter.ScanTimeout = 10000; // tiempo de busqueda de dispositivos en advertising
             bleAdapter.ScanTimeoutElapsed += (sender, args) =>
@@ -85,8 +86,32 @@ namespace DemoXamarinBLE.VistaModelo
                 modelo.ListaDispositivos.Add(dispositivoDescubierto);
                 //}
             };
+    
+            bleAdapter.DeviceDisconnected += OnDeviceDisconnected;
+            bleAdapter.DeviceConnectionLost += OnDeviceConnectionLost;
 
             modelo.EstatusBLE = "Listo...";
+        }
+
+        private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
+        {
+            /*Devices.FirstOrDefault(d => d.Id == e.Device.Id)?.Update();
+
+            _userDialogs.HideLoading();
+            _userDialogs.ErrorToast("Error", $"Connection LOST {e.Device.Name}", TimeSpan.FromMilliseconds(6000));*/
+
+            System.Diagnostics.Debug.WriteLine("CONNECTION LOST !!!!");
+        }
+
+        private void OnDeviceDisconnected(object sender, DeviceEventArgs e)
+        {
+            /*Devices.FirstOrDefault(d => d.Id == e.Device.Id)?.Update();
+            _userDialogs.HideLoading();
+            _userDialogs.Toast($"Disconnected {e.Device.Name}");
+
+            Console.WriteLine($"Disconnected {e.Device.Name}");*/
+
+            System.Diagnostics.Debug.WriteLine("DEVICE DISCONNECTED !!!!");
         }
 
         // conecta a dispositivo conocido
@@ -109,6 +134,12 @@ namespace DemoXamarinBLE.VistaModelo
 
                         foreach (IService servicio in await disp.GetServicesAsync())
                         {
+                            if (servicio.Id.Equals(System.Guid.Parse("85601a0a-82b5-4c25-a107-565ff8402d97")))
+                            {
+                                System.Diagnostics.Debug.WriteLine("ES EL MISMO ID!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                //servicio.Name.Concat("IKKONEKT");
+                                
+                            }
                             modelo.ListaServicios.Add(servicio);
                         }
 
@@ -170,7 +201,10 @@ namespace DemoXamarinBLE.VistaModelo
                         }
                         modelo.EstatusBLE = "Conectando con el periférico...";
 
+                        //await bleAdapter.ConnectToDeviceAsync(modelo.DispositivoConectado, new Plugin.BLE.Abstractions.ConnectParameters(true,false));
                         await bleAdapter.ConnectToDeviceAsync(modelo.DispositivoConectado);
+
+                        System.Diagnostics.Debug.WriteLine("SE CONECTA!!!!!!!!!!!!!!!!");
 
                         modelo.ListaServicios.Clear();
 
@@ -388,12 +422,26 @@ namespace DemoXamarinBLE.VistaModelo
                         {
                             var bytes = args.Characteristic.Value;
                             //var result = System.BitConverter.ToInt64(bytes,0);
-                            foreach (var b in bytes)
-                            {           
-                                System.Diagnostics.Debug.WriteLine(b);
-                                modelo.DatosNotificacion += "Temperatura: " + b + "\n";
-                                System.Diagnostics.Debug.WriteLine("Temperatura: " + b);
-                            }
+
+                            // modelo.DatosNotificacion += "Temperatura: " + bytes[0] + "\n";
+
+                            System.Diagnostics.Debug.WriteLine("NOTIFICACIONES");
+
+                            //   for (int i=0; i<1; i++)
+                            //   {
+                            //       System.Diagnostics.Debug.WriteLine("Byte 1:");
+                            //       System.Diagnostics.Debug.WriteLine(bytes.GetValue(0));
+                            //   }
+                            System.Diagnostics.Debug.WriteLine("Temperatura: " + bytes.GetValue(0) + "\n");
+                            modelo.DatosNotificacion += "Temperatura: " + bytes.GetValue(0) + "\n";
+
+                            //   foreach (var b in bytes)
+                            //  {           
+                            //       System.Diagnostics.Debug.WriteLine(b);
+                            //       modelo.DatosNotificacion += "Temperatura: " + b + "\n";
+                            //       System.Diagnostics.Debug.WriteLine("Temperatura: " + b);
+                            //   }
+
                             System.Diagnostics.Debug.WriteLine("UPDATE!!!!!!");
                             
                         };
